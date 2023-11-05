@@ -31,6 +31,7 @@ public class AlbumImpl implements Album {
         for (int i = 0; i < size; i++) {
             if (photos[i].getPhotoId() == photoId && photos[i].getAlbumId() == albumId) {
                 photos[i] = photos[size - 1];
+                size--;
                 return true;
             }
         }
@@ -67,7 +68,8 @@ public class AlbumImpl implements Album {
     @Override
     public Photo[] getPhotoBetweenDate(LocalDate dateFrom, LocalDate dateTo) {
 
-        return getPhotoByPredicate(p -> p.getDate().toLocalDate().isAfter(dateFrom) && p.getDate().toLocalDate().isBefore(dateTo));
+        return getPhotoByPredicate(p -> p.getDate().toLocalDate().isAfter(dateFrom.minusDays(1))
+                && p.getDate().toLocalDate().isBefore(dateTo.plusDays(1)));
     }
 
     @Override
